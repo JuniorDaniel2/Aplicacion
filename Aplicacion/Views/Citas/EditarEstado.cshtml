@@ -1,0 +1,19 @@
+﻿@model Aplicacion.Models.Cita
+@{
+    ViewBag.Title = "Cambiar Estado de Cita";
+}
+
+<h2>@(Model.Estado == "Pendiente" ? "Actualizar Cita" : "Cita")</h2>
+
+@using (Html.BeginForm("EditarEstado", "Citas", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.CitaID)
+
+    <label>Comentarios:</label>
+    <br />
+    @Html.TextAreaFor(m => m.Comentarios, 4, 50, null)
+    <br />
+
+    <button type="submit" name="accion" value="aprobar">Aprobar</button>
+    <button type="submit" name="accion" value="rechazar">Rechazar</button>
+}

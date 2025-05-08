@@ -1,0 +1,28 @@
+﻿@model List<Aplicacion.Models.Cliente>
+@{
+    ViewBag.Title = "Clientes";
+}
+
+
+
+<table border="1">
+    <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td>@c.Nombre</td>
+            <td>@c.Correo</td>
+            <td>@c.Telefono</td>
+            <td>
+                <a href="@Url.Action("Editar", "Clientes", new { id = c.ClienteID })">Editar</a> |
+                <a href="@Url.Action("Eliminar", "Clientes", new { id = c.ClienteID })" onclick="return confirm('¿Eliminar este cliente?')">Eliminar</a>
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,49 @@
+﻿@model Aplicacion.Models.ClienteRegistroViewModel
+@{
+    ViewBag.Title = "Registro de Cliente";
+}
+
+<h2>Registro de Cliente</h2>
+
+<div id="mensaje"></div>
+
+<form id="form-registro">
+    <label>Nombre:</label>
+    @Html.TextBoxFor(m => m.Nombre) <br />
+
+    <label>Correo:</label>
+    @Html.TextBoxFor(m => m.Correo, new { type = "email" }) <br />
+
+    <label>Teléfono:</label>
+    @Html.TextBoxFor(m => m.Telefono) <br />
+
+    <label>Usuario:</label>
+    @Html.TextBoxFor(m => m.Usuario) <br />
+
+    <label>Contraseña:</label>
+    @Html.PasswordFor(m => m.Contrasena) <br />
+
+    <button type="submit">Registrar</button>
+</form>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#form-registro").submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("RegistrarAjax", "Clientes")',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    $("#mensaje").html('<p style="color:green">' + data.mensaje + '</p>');
+                    $("#form-registro")[0].reset();
+                },
+                error: function (xhr) {
+                    $("#mensaje").html('<p style="color:red">' + xhr.responseText + '</p>');
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿@model List<Aplicacion.Models.Cita>
+@{
+    ViewBag.Title = "Revisar Citas";
+}
+
+<h2>Citas Pendientes</h2>
+
+<div id="mensaje"></div>
+
+<table id="tabla-citas" border="1">
+    <tr>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach (var c in Model)
+    {
+        <tr id="fila-@c.CitaID">
+            <td>@c.FechaHora</td>
+            <td id="estado-@c.CitaID">@c.Estado</td>
+            <td>
+                <textarea id="comentario-@c.CitaID" placeholder="Comentario..." rows="2" cols="30"></textarea><br />
+                <button onclick="actualizarEstado(@c.CitaID, 'Aprobada')">Aprobar</button>
+                <button onclick="actualizarEstado(@c.CitaID, 'Rechazada')">Rechazar</button>
+            </td>
+        </tr>
+    }
+</table>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    function actualizarEstado(citaId, nuevoEstado) {
+        var comentario = $("#comentario-" + citaId).val();
+
+        $.ajax({
+            url: '@Url.Action("ActualizarEstadoAjax", "Citas")',
+            type: 'POST',
+            data: {
+                id: citaId,
+                estado: nuevoEstado,
+                comentario: comentario
+            },
+            success: function (data) {
+                $("#mensaje").html('<p style="color:green">' + data.mensaje + '</p>');
+                $("#fila-" + citaId).fadeOut(); // Opcional: eliminar fila visualmente
+            },
+            error: function (xhr) {
+                $("#mensaje").html('<p style="color:red">Error: ' + xhr.responseText + '</p>');
+            }
+        });
+    }
+    </script>
+}

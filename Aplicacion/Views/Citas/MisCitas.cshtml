@@ -1,0 +1,24 @@
+﻿@model List<Aplicacion.Models.Cita>
+@{
+    ViewBag.Title = "Mis Citas";
+}
+
+<h2>Mis Citas</h2>
+
+<table border="1">
+    <tr>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Comentarios</th>
+        <th>Fecha de Finalización</th>
+    </tr>
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td>@c.FechaHora</td>
+            <td>@c.Estado</td>
+            <td>@c.Comentarios</td>
+            <td>@(c.FechaFinalizacion?.ToString("dd/MM/yyyy HH:mm") ?? "-")</td>
+        </tr>
+    }
+</table>

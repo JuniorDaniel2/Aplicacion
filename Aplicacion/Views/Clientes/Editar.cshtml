@@ -1,0 +1,25 @@
+﻿@model Aplicacion.Models.Cliente
+@{
+    ViewBag.Title = "Editar Cliente";
+}
+
+<h2>Editar Cliente</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ClienteID)
+
+    <label>Nombre:</label>
+    @Html.TextBoxFor(m => m.Nombre)
+    <br />
+
+    <label>Correo:</label>
+    @Html.TextBoxFor(m => m.Correo)
+    <br />
+
+    <label>Teléfono:</label>
+    @Html.TextBoxFor(m => m.Telefono)
+    <br />
+
+    <input type="submit" value="Guardar" />
+}

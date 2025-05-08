@@ -1,0 +1,39 @@
+﻿@model Aplicacion.Models.CitaRegistroViewModel
+@{
+    ViewBag.Title = "Registrar Cita";
+}
+
+<h2>Registrar Cita</h2>
+
+<div id="mensaje"></div>
+
+<form id="form-cita">
+    <label>Vehículo:</label>
+    @Html.DropDownListFor(m => m.VehiculoID, Model.Vehiculos, "Seleccione un vehículo")<br />
+
+    <label>Fecha y hora:</label>
+    @Html.TextBoxFor(m => m.FechaHora, new { @type = "datetime-local" })<br />
+
+    <button type="submit">Agendar Cita</button>
+</form>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#form-cita").submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("CrearAjax", "Citas")',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    $("#mensaje").html('<p style="color:green">' + data.mensaje + '</p>');
+                },
+                error: function (xhr) {
+                    $("#mensaje").html('<p style="color:red">Error: ' + xhr.responseText + '</p>');
+                }
+            });
+        });
+    </script>
+}
